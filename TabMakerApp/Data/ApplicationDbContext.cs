@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TabMakerApp.Models;
 
 namespace TabMakerApp.Data
 {
@@ -9,5 +10,6 @@ namespace TabMakerApp.Data
             : base(options)
         {
         }
+        public DbSet<TabMakerApp.Models.Tab> Tab { get; set; } = default!;
     }
 }
