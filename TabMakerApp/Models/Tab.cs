@@ -1,13 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TabMakerApp.Models
 {
     public class Tab
     {
-        [Key]
         public int Id { get; set; }
+        
+        public string UserId { get; set; }
 
         [Required]
+        [DisplayName("Tab Name")]
         public string? Name { get; set; }
         public string? Author { get; set; }
         public string? TabContent { get; set; }
