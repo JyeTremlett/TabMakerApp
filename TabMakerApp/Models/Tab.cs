@@ -6,9 +6,8 @@ namespace TabMakerApp.Models
 {
     public class Tab
     {
+        [Key]
         public int Id { get; set; }
-        
-        public string UserId { get; set; }
 
         [Required]
         [DisplayName("Tab Name")]
@@ -18,5 +17,9 @@ namespace TabMakerApp.Models
         public string? Description { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Updated { get; set; } = DateTime.Now;
+
+        [ForeignKey("ApplicationUser")]
+        public string UserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; } = null!;
     }
 }

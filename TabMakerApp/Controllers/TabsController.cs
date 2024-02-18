@@ -11,15 +11,16 @@ using Microsoft.EntityFrameworkCore;
 using TabMakerApp.Data;
 using TabMakerApp.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace TabMakerApp.Controllers
 {
     public class TabsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager; // userManager object for accessing current user id
+        private readonly UserManager<ApplicationUser> _userManager; // userManager object for accessing current user id
 
-        public TabsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public TabsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -29,7 +30,12 @@ namespace TabMakerApp.Controllers
         // GET: Tabs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tab.ToListAsync());
+            /*var currentUserId = _userManager.GetUserId(this.User);*/
+    
+            // get Tabs belonging to user matching current user's username
+            var applicationDbContext = _context.Tabs.Include(p => p.ApplicationUser)
+                                                .Where(a => a.ApplicationUser.UserName == User.Identity.Name);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Tabs/Details/5
@@ -40,7 +46,7 @@ namespace TabMakerApp.Controllers
                 return NotFound();
             }
 
-            var tab = await _context.Tab
+            var tab = await _context.Tabs
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tab == null)
             {
@@ -65,9 +71,11 @@ namespace TabMakerApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Author,TabContent,Description,Created,Updated")] Tab tab)
         {
+            var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+            tab.UserId = user.Id;
 
-            var id = _userManager.GetUserId(this.User);
-            tab.Author = id;
+            // remove modelstate UserId checking as it does not recorgnise tab.UserId
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
                 _context.Add(tab);
@@ -86,7 +94,7 @@ namespace TabMakerApp.Controllers
                 return NotFound();
             }
 
-            var tab = await _context.Tab.FindAsync(id);
+            var tab = await _context.Tabs.FindAsync(id);
             if (tab == null)
             {
                 return NotFound();
@@ -139,7 +147,7 @@ namespace TabMakerApp.Controllers
                 return NotFound();
             }
 
-            var tab = await _context.Tab
+            var tab = await _context.Tabs
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tab == null)
             {
@@ -155,10 +163,10 @@ namespace TabMakerApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tab = await _context.Tab.FindAsync(id);
+            var tab = await _context.Tabs.FindAsync(id);
             if (tab != null)
             {
-                _context.Tab.Remove(tab);
+                _context.Tabs.Remove(tab);
             }
 
             await _context.SaveChangesAsync();
@@ -167,7 +175,7 @@ namespace TabMakerApp.Controllers
 
         private bool TabExists(int id)
         {
-            return _context.Tab.Any(e => e.Id == id);
+            return _context.Tabs.Any(e => e.Id == id);
         }
     }
 }
