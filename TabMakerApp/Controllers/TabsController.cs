@@ -18,7 +18,9 @@ namespace TabMakerApp.Controllers
     public class TabsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager; // userManager object for accessing current user id
+
+        // userManager object for accessing current user id
+        private readonly UserManager<ApplicationUser> _userManager; 
 
         public TabsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -29,9 +31,7 @@ namespace TabMakerApp.Controllers
 
         // GET: Tabs
         public async Task<IActionResult> Index()
-        {
-            /*var currentUserId = _userManager.GetUserId(this.User);*/
-    
+        {    
             // get Tabs belonging to user matching current user's username
             var applicationDbContext = _context.Tabs.Include(p => p.ApplicationUser)
                                                 .Where(a => a.ApplicationUser.UserName == User.Identity.Name);
@@ -115,6 +115,12 @@ namespace TabMakerApp.Controllers
                 return NotFound();
             }
 
+            // get current user id
+            var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+            tab.UserId = user.Id;
+
+            // remove modelstate UserId checking as it does not recorgnise tab.UserId
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
                 try
