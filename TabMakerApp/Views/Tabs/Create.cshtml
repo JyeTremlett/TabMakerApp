@@ -16,11 +16,6 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div> *@
             <div class="form-group">
                 <label asp-for="TabContent" class="control-label"></label>
                 <input asp-for="TabContent" class="form-control" />
@@ -38,10 +33,49 @@
     </div>
 </div>
 
+<div class="tab-input">
+
+    <!-- user input for tab segment creation -->
+    <div class="tab-segment-creator" method="get">
+
+        <!-- div for user selecting tab width -->
+        <form class="width-selector">
+            <h2>Step 1: Select a Tab Segment Width</h2>
+            <input type="radio" id="width8" name="max-width" value="8" checked="checked">
+            <label for="width8">8</label>
+            <br>
+            <input type="radio" id="width16" name="max-width" value="16">
+            <label for="width16">16</label>
+            <br>
+            <input type="button" id="submit-width-btn" value="submit" onclick="startFlow()">
+        </form>
+        <br>
+
+        <!-- div for user input of tab values -->
+        <h2>Step 2: Fill in the Tab Segment as Required</h2>
+        <form class="tab-segment-value-input" method="get"></form>
+        <input type="button" id="submit-tab-segment-btn" value="convert to text">
+        <br><br>
+
+        <!-- div for visualisation of tab for user -->
+        <h2>Step 3: Copy Your Tab Finished Tab Segment</h2>
+        <div class="tab-segment-visualised"></div>
+        <br>
+
+    </div>
+
+    <!-- div for input of full tab  -->
+    <div class="full-tab-creator">
+        <h2>Step 4: Write Your Full Tab Here</h2>
+        <textarea id="tab-text" name="tab-text"></textarea>
+    </div>
+</div>
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script src="wwwroot/js/tabdisplayer.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
