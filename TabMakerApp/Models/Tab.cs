@@ -13,6 +13,7 @@ namespace TabMakerApp.Models
         [DisplayName("Tab Name")]
         public string? Name { get; set; }
         public string? Author { get; set; }
+        [DisplayName("Tab Content")]
         public string? TabContent { get; set; }
         public string? Description { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;

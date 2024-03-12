@@ -3,6 +3,7 @@ Author: Jye Tremlett
 Created: 7/7/2023
 */
 
+window.onload = startFlow();
 
 /*
 Function to be called when when user chooses a width from the radio buttons and selects the submit button.
@@ -53,9 +54,6 @@ function copyTabToClipboard(width) {
 
     // copy the text inside the text field
     navigator.clipboard.writeText(output);
-
-    // alert that the tab has been copied
-    alert("tab copied to clipboard");
 }
 
 

@@ -71,8 +71,10 @@ namespace TabMakerApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Author,TabContent,Description,Created,Updated")] Tab tab)
         {
+            // get current user and set new tab's userId and author
             var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
             tab.UserId = user.Id;
+            tab.Author = user.UserName;
 
             // remove modelstate UserId checking as it does not recorgnise tab.UserId
             ModelState.Remove("UserId");
