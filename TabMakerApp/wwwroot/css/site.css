@@ -18,5 +18,11 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: #f8f8f8;
+    font-family: arial;
+    margin-bottom: 60px;
+}
+
+h1 {
+    text-transform: uppercase;
 }
