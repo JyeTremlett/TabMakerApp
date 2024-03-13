@@ -18,15 +18,15 @@
     text-align: center;
     cursor: text;
     border: 0;
+    background-color: #f8f8f8;
 }
 
 #tab-output {
     font-family: monospace;
 }
 
-textarea {
+.tab-textarea {
     font-family: monospace;
-    color: orange;
 }
 
 /* HIDE ARROWS IN INPUT BOXES */
@@ -36,7 +36,6 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
