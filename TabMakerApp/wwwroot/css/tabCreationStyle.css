@@ -1,12 +1,6 @@
 ﻿
 
 
-.tab-input {
-    padding: 5%;
-    border: 0.5px solid black;
-    border-radius: 10px;
-}
-
 .tab-segment-value-input {
     font-family: monospace;
 }
@@ -27,6 +21,7 @@
 
 .tab-textarea {
     font-family: monospace;
+    height: 25rem;
 }
 
 /* HIDE ARROWS IN INPUT BOXES */

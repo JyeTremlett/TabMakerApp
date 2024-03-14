@@ -3,13 +3,12 @@ Author: Jye Tremlett
 Created: 7/7/2023
 */
 
-console.log("Hello world!");
 window.onload = startFlow();
 
 /*
 Function to be called when when user chooses a width from the radio buttons and selects the submit button.
 A new tab object is created and the tab segment input boxes of the appropriate width are dispalyed. Function 
-then adds an event listener for the "convert to text" button once a user has entered the values for their tab.
+then adds an event listener for the "copy-text-button" button once a user has entered the values for their tab.
 */
 function startFlow() {
 

@@ -5,73 +5,70 @@
 }
 
 <h1 class="pt-4">Create a Tab</h1>
-
 <hr />
 
-<div class="row">
-    <div >
-        <form asp-action="Create">
+<section class="py-2">
+    <div class="row">
+        <form asp-action="Create" class="col-12 col-lg-7 pb-lg-0 pb-2">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="pe-3">
+                <div class="form-group py-1">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
 
-            <div class="form-group py-1">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+                <div class="form-group py-1">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
 
-            <div class="form-group py-1">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+                <div class="full-tab-creator py-1">
+                    <div class="form-group">
+                        <label asp-for="TabContent" class="control-label"></label>
+                        <textarea asp-for="TabContent" class="tab-textarea form-control"></textarea>
+                    </div>
+                </div>
 
-            <!-- div for input of full tab  -->
-            <div class="full-tab-creator py-1">
-@*                 <h2>Step 4: Write Your Full Tab Here</h2>
- *@                <div class="form-group">
-                    <label asp-for="TabContent" class="control-label"></label>
-                    <textarea asp-for="TabContent" class="tab-textarea form-control"></textarea>
+                <div class="form-group d-grid gap-2 pt-2">
+                    <input type="submit" value="Create" class="btn btn-primary btn-lg" />
                 </div>
             </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-info" />
-            </div>
-
         </form>
-        <div class="main-content py-3">
-            <div class="tab-input">
+
+        <div class="main-content col-12 col-lg-5 border border-primary border-2 rounded-4 px-0">
+            <div class="tab-input p-3">
                 <!-- user input for tab segment creation -->
                 <div class="tab-segment-creator" method="get">
 
                     <!-- div for user selecting tab width -->
                     <form class="width-selector">
-                        <h4>Step 1: Select a Tab Segment Width</h4>
+                        <h4>Select a Tab Segment Width</h4>
                         <input type="radio" id="width8" name="max-width" value="8" checked="checked" />
                         <label for="width8">8</label>
                         <br>
                         <input type="radio" id="width16" name="max-width" value="16" />
                         <label for="width16">16</label>
                         <br>
-                        <input type="button" id="submit-width-btn" value="submit" onclick="startFlow()" />
+                        <input type="button" class="btn btn-primary mt-2" id="submit-width-btn" value="submit" onclick="startFlow()" />
                     </form>
                     <br>
 
                     <!-- div for user input of tab values -->
-                    <h4>Step 2: Fill in the Tab Segment as Required</h4>
+                    <h4>Fill in the Tab Segment as Required</h4>
                     <form class="tab-segment-value-input" method="get"></form>
-                    <input type="button" id="copy-text-button" value="copy text" />
-
+                    <input type="button" class="btn btn-primary mt-2" id="copy-text-button" value="copy text" />
                 </div>
             </div>
-
         </div>
-        
     </div>
-</div>
+</section>
+
+<hr />
 
 <div>
-    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Index">Back to List</a>
 </div>
 
 <script src="~/js/tabDisplayer.js"></script>
