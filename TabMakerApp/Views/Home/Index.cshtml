@@ -2,36 +2,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center pt-5">
     <br />
     <h1>Tab Creator <i class="bi bi-music-note-beamed"></i></h1>
     <h4>By Jye Tremlett</h4>
-    <hr />
-    <div class="form-group d-grid gap-2 pt-2">
-        <a class="btn btn-info btn-lg" asp-controller="Tabs" asp-action="Create">Create a Tab!</a>
-
-    </div>
-
-    <div class="py-5">
-        <h5>Tab Creator is a streamlined tab writing tool, build to make editing and creating tablature as easy and simple as possible.</h5>
-    </div>
-
-    <section class="pt-5" id="features">
-        <div class="row">
-            <div class="col">
-                <p>Write tabs with the assistance of a purpose-built tab generator</p>
+   
+    <div class="row pt-5 justify-content-between">
+        <div class="col-7">
+            <div class="form-group d-grid gap-2 pt-2 px-5 pt-5">
+                <a class="btn btn-secondary btn-lg mx-5" asp-controller="Tabs" asp-action="Create">Create a Tab</a>
             </div>
-            <div class="col">
-                <p>Tab Feature 2</p>
+
+            <div class="py-5">
+                <h5>Tab Creator is a streamlined tab writing tool, built to make editing and creating tablature as easy and simple as possible.</h5>
             </div>
+
+            <section class="pt-5" id="features">
+                <div class="row">
+                    <div class="col">
+                        <p>Write tabs with the assistance of a purpose-built tab generator</p>
+                    </div>
+                    <div class="col">
+                        <p>Search for tabs written by other users</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>Create an account to save your tabs</p>
+                    </div>
+                    <div class="col">
+                        <p></p>
+                    </div>
+                </div>
+            </section>
         </div>
-        <div class="row">
-            <div class="col">
-                <p>Tab Feature 3</p>
-            </div>
-            <div class="col">
-                <p>Tab Feature 4</p>
-            </div>
+        <div class="col-5">
+            <img src="~/lib/img/guitar_background.jpg" alt="Alternate Text" class="img-fluid" />
         </div>
-    </section>
+        
+    </div>
+    
 </div>
