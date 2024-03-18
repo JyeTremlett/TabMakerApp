@@ -24,6 +24,10 @@
     height: 25rem;
 }
 
+.main-content {
+    background-color: #f8f8f8;
+}
+
 /* HIDE ARROWS IN INPUT BOXES */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

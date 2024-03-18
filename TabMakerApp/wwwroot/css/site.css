@@ -21,4 +21,14 @@ body {
     background-color: #f8f8f8;
     font-family: arial;
     margin-bottom: 60px;
+    background: url('../lib/img/layered-peaks-haikei.svg');
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
 }
+
+.feature em {
+    color: #e74c3c;
+    font-style: inherit;
+}
+
