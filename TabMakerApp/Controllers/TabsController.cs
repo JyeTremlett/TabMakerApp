@@ -12,15 +12,22 @@ using TabMakerApp.Data;
 using TabMakerApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Policy;
 
 namespace TabMakerApp.Controllers
 {
     public class TabsController : Controller
     {
+
+        public const string SessionKeyTabTitle = "_Title";
+        public const string SessionKeyDescription = "_Description";
+        public const string SessionKeyTabContent = "_TabContent";
+
         private readonly ApplicationDbContext _context;
 
         // userManager object for accessing current user id
-        private readonly UserManager<ApplicationUser> _userManager; 
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public TabsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -31,7 +38,7 @@ namespace TabMakerApp.Controllers
 
         // GET: Tabs
         public async Task<IActionResult> Index()
-        {    
+        {
             // get Tabs belonging to user matching current user's username
             var applicationDbContext = _context.Tabs.Include(p => p.ApplicationUser)
                                                 .Where(a => a.ApplicationUser.UserName == User.Identity.Name);
@@ -57,22 +64,41 @@ namespace TabMakerApp.Controllers
         }
 
         // GET: Tabs/Create
-        [Authorize]
         public IActionResult Create()
         {
+            // if Session data for SessionKeyTabTitle is set, retrieve prepopulated fields
+            if (!HttpContext.Session.GetString(SessionKeyTabTitle).IsNullOrEmpty())
+            {
+                Tab prepopulatedTab = new Tab()
+                {
+                    Name = HttpContext.Session.GetString(SessionKeyTabTitle),
+                    Description = HttpContext.Session.GetString(SessionKeyDescription),
+                    TabContent = HttpContext.Session.GetString(SessionKeyTabContent)
+                };
+                HttpContext.Session.SetString(SessionKeyTabTitle, ""); // reset sessiond data to empty after populating
+                return View(prepopulatedTab);
+            }
             return View();
         }
 
         // POST: Tabs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Author,TabContent,Description,Created,Updated")] Tab tab)
         {
+            // if user is authenticated, save the tab data and redirect to login page
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                saveTabToSession(tab);
+                return Redirect("/Identity/Account/Login?ReturnUrl=%2FTabs%2FCreate");
+            }
+
             // get current user and set new tab's userId and author
             var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+
             tab.UserId = user.Id;
             tab.Author = user.UserName;
 
@@ -112,6 +138,9 @@ namespace TabMakerApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Author,TabContent,Description,Created,Updated")] Tab tab)
         {
+            /*saveTabToSession()*/
+            RedirectToAction("Login", "Account");
+
             if (id != tab.Id)
             {
                 return NotFound();
@@ -184,6 +213,13 @@ namespace TabMakerApp.Controllers
         private bool TabExists(int id)
         {
             return _context.Tabs.Any(e => e.Id == id);
+        }
+
+        public void saveTabToSession(Tab tab)
+        {
+            HttpContext.Session.SetString(SessionKeyDescription, tab.Description);
+            HttpContext.Session.SetString(SessionKeyTabContent, tab.TabContent);
+            HttpContext.Session.SetString(SessionKeyTabTitle, tab.Name);
         }
     }
 }
